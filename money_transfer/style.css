@@ -201,8 +201,8 @@ input[type="submit"]:hover {
   border-radius: 10px;
   text-align: right;
 }
-.mr-100 {
-  margin-right: 100px;
+.ml-100 {
+  margin-left: 100px;
 }
 .mb-20 {
   margin-bottom: 20px;
@@ -246,4 +246,11 @@ button:hover {
 
 .text-blue {
   color: blue;
+}
+
+.text-red {
+  color: red;
+}
+.text-center {
+  text-align: center;
 }

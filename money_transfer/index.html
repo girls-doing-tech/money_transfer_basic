@@ -23,25 +23,25 @@
       </div>
 
       <div id="recipientTab" class="tabcontent">
-        <h2>Select Recipient</h2>
+        <h2>اختر مستلم</h2>
 
         <form action="process_payment.php" method="post">
-          <label for="recipient">Recipient:</label>
+          <label for="recipient">المستلم:</label>
           <select name="recipient" id="recipient">
-            <option value="recipient1">Recipient 1</option>
-            <option value="recipient2">Recipient 2</option>
-            <option value="recipient3">Recipient 3</option>
+            <option value="recipient1">أحمد</option>
+            <option value="recipient2">محمد</option>
+            <option value="recipient3">محمود</option>
             <!-- Add more options as needed -->
           </select>
-          <input type="text" id="searchInput" placeholder="Search..." />
+          <input type="text" id="searchInput" placeholder="بحث..." />
           <ul id="autocompleteResults" class="autocomplete-results"></ul>
           <br />
 
-          <label for="amount">Amount:</label>
+          <label for="amount">الكمية:</label>
           <input type="number" name="amount" id="amount" step="0.01" required />
           <br />
 
-          <label for="currency">Currency:</label>
+          <label for="currency">العملة:</label>
           <select name="currency" id="currency">
             <option value="usd">USD</option>
             <option value="eur">EUR</option>
@@ -50,11 +50,11 @@
           </select>
           <br />
 
-          <label for="message">Message:</label>
+          <label for="message">الرسالة:</label>
           <textarea name="message" id="message" rows="4" cols="50"></textarea>
           <br />
 
-          <input type="submit" value="Send Money" />
+          <input type="submit" value="ارسال" />
         </form>
       </div>
 
@@ -64,12 +64,21 @@
           <div class="amount-tap-container">
             <div class="amount-tap-content mb-20">
               <h1 class="d-inline">MG</h1>
-              <h4 class="text-gray mb-20 d-inline mr-100" id="copyTextBillNo">
+              <h4 class="text-gray mb-20 d-inline ml-100" id="copyTextBillNo">
                 9999999
               </h4>
               <hr class="mb-20" />
               <p class="text-gray mb-20">رقم الاشعار</p>
               <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
+              <hr class="mb-20" />
+              <p class="text-gray">المبلغ</p>
+              <h3 class="text-red text-center" id="copyTextSourceNo">
+                20000 ليرة سورية
+              </h3>
+              <p class="text-gray mb-20 text-center">عشرون ألفا</p>
+              <hr class="mb-20" />
+              <p class="text-gray">ملاحظات مهمة</p>
+              <p>أموال هي وحدة تبادل تستخدم في الاقتصاد للقيام بالمعاملات</p>
             </div>
           </div>
           <div class="amount-tap-buttons">
@@ -140,25 +149,25 @@
       const data = [
         {
           id: 1,
-          name: "John Doe",
+          name: "أحمد",
           age: 28,
           email: "john@example.com",
         },
         {
           id: 2,
-          name: "Jane Smith",
+          name: "محمد",
           age: 24,
           email: "jane@example.com",
         },
         {
           id: 3,
-          name: "Michael Johnson",
+          name: "محمود",
           age: 32,
           email: "michael@example.com",
         },
         {
           id: 4,
-          name: "Emily Brown",
+          name: "حمد",
           age: 29,
           email: "emily@example.com",
         },
