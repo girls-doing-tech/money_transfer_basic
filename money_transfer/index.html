@@ -69,7 +69,7 @@
               </h4>
               <hr class="mb-20" />
               <p class="text-gray mb-20">رقم الاشعار</p>
-              <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
+              <h3 class="text-blue" id="copyTextSourceNo">5555555555555</h3>
               <hr class="mb-20" />
               <p class="text-gray">المبلغ</p>
               <h3 class="text-red text-center" id="copyTextSourceNo">
@@ -81,11 +81,11 @@
               <p>أموال هي وحدة تبادل تستخدم في الاقتصاد للقيام بالمعاملات</p>
             </div>
           </div>
-          <div class="amount-tap-buttons">
-            <button class="print-btn" id="printButton">طباعة الـأسعار</button>
-            <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
-            <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
-          </div>
+        </div>
+        <div class="amount-tap-buttons">
+          <button class="print-btn" id="printButton">طباعة الـأسعار</button>
+          <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
+          <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
         </div>
       </div>
 
@@ -215,9 +215,10 @@
 
         // Clean up
         document.body.removeChild(textarea);
+        alert("Information copied to clipboard! " + "\n" + textarea.value);
 
         // Update the button text
-        copyButton.textContent = "تم النسخ!";
+        // copyButton.textContent = "تم النسخ!";
       });
       // copy end
 
