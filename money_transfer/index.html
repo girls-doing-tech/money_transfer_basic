@@ -71,9 +71,9 @@
             <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
           </div>
           <div class="amount-tap-buttons">
-            <button class="download-btn">تحميل كـ صورة</button>
+            <button class="print-btn" id="printButton">طباعة الـأسعار</button>
             <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
-            <button class="print-btn">طباعة الـأسعار</button>
+            <button class="download-btn">تحميل كـ صورة</button>
           </div>
         </div>
       </div>
@@ -209,6 +209,18 @@
         copyButton.textContent = "تم النسخ!";
       });
       // copy end
+
+      // print start
+      // Get a reference to the "Print" button
+      const printButton = document.getElementById("printButton");
+
+      // Attach a click event listener to the button
+      printButton.addEventListener("click", () => {
+        // Call the window.print() function to open the print dialog
+        window.print();
+      });
+
+      // print end
     </script>
   </body>
 </html>
