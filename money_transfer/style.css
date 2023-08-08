@@ -80,7 +80,7 @@ body {
 
 /* Style the tab content */
 .tabcontent {
-  height: 500px;
+  height: 550px;
   display: none;
   padding: 20px;
 }
@@ -195,7 +195,9 @@ input[type="submit"]:hover {
   padding: 20px;
   box-sizing: border-box;
 }
-
+.p-5 {
+  padding: 15px;
+}
 .amount-tap-content {
   padding: 20px;
   border-radius: 10px;
