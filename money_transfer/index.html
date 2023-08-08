@@ -59,15 +59,20 @@
       </div>
 
       <div id="amountTab" class="tabcontent">
-        <h2>Bill Information</h2>
+        <h2>سند صرف</h2>
         <div class="amount-tap-container">
-          <div class="amount-tap-content">
-            <h1>Welcome to My Page</h1>
-            <p>This is some sample text for demonstration purposes.</p>
+          <div class="amount-tap-content mb-20">
+            <h1 class="d-inline">MG</h1>
+            <h4 class="text-gray mb-20 d-inline mr-100" id="copyTextBillNo">
+              9999999
+            </h4>
+            <hr class="mb-20" />
+            <p class="text-gray mb-20">رقم الاشعار</p>
+            <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
           </div>
           <div class="amount-tap-buttons">
             <button class="download-btn">تحميل كـ صورة</button>
-            <button class="copy-btn">نسخ المعلومات</button>
+            <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
             <button class="print-btn">طباعة الـأسعار</button>
           </div>
         </div>
@@ -91,6 +96,7 @@
     </div>
 
     <script>
+      // active tab start
       document.getElementById("recipientTab").style.display = "block";
       function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
@@ -105,7 +111,9 @@
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.className += " active";
       }
+      // active tab end
 
+      // quick search start
       function searchRecipients() {
         var input, filter, select, options, i, txtValue;
         input = document.getElementById("recipientSearch");
@@ -177,6 +185,30 @@
           autocompleteResults.appendChild(li);
         });
       }
+      // quick search end
+
+      // copy start
+      const copyButton = document.getElementById("copyButton");
+      const copyText = document.getElementById("copyTextSourceNo");
+      const copyText1 = document.getElementById("copyTextBillNo");
+
+      copyButton.addEventListener("click", () => {
+        // Create a temporary textarea to hold the text
+        const textarea = document.createElement("textarea");
+        textarea.value = copyText.textContent + copyText1.textContent;
+        document.body.appendChild(textarea);
+
+        // Select the text in the textarea
+        textarea.select();
+        document.execCommand("copy");
+
+        // Clean up
+        document.body.removeChild(textarea);
+
+        // Update the button text
+        copyButton.textContent = "تم النسخ!";
+      });
+      // copy end
     </script>
   </body>
 </html>

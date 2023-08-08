@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  direction: rtl;
 }
 
 /* Style the body with a background color and center content */
@@ -196,14 +197,19 @@ input[type="submit"]:hover {
 }
 
 .amount-tap-content {
-  max-width: 600px;
-  margin: auto;
   padding: 20px;
-  background-color: #f0f0f0;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: right;
 }
-
+.mr-100 {
+  margin-right: 100px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.d-inline {
+  display: inline;
+}
 .amount-tap-buttons {
   display: flex;
   justify-content: flex-end;
@@ -233,4 +239,12 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.text-gray {
+  color: gray;
+}
+
+.text-blue {
+  color: blue;
 }
