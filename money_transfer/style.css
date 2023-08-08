@@ -79,6 +79,7 @@ body {
 
 /* Style the tab content */
 .tabcontent {
+  height: 500px;
   display: none;
   padding: 20px;
 }
@@ -181,5 +182,55 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.amount-tap-container {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.amount-tap-content {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.amount-tap-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.download-btn {
+  background-color: green;
+}
+.copy-btn {
+  background-color: rgb(10, 133, 150);
+}
+.print-btn {
+  background-color: rgb(10, 133, 150);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
   background-color: #0056b3;
 }
