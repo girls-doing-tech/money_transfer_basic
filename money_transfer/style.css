@@ -82,7 +82,7 @@ body {
 .tabcontent {
   height: 550px;
   display: none;
-  padding: 20px;
+  padding: 35px;
 }
 
 /* Style recipient search input and combobox */
