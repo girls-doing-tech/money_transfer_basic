@@ -59,21 +59,23 @@
       </div>
 
       <div id="amountTab" class="tabcontent">
-        <h2>سند صرف</h2>
-        <div class="amount-tap-container">
-          <div class="amount-tap-content mb-20">
-            <h1 class="d-inline">MG</h1>
-            <h4 class="text-gray mb-20 d-inline mr-100" id="copyTextBillNo">
-              9999999
-            </h4>
-            <hr class="mb-20" />
-            <p class="text-gray mb-20">رقم الاشعار</p>
-            <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
+        <div id="popup">
+          <h2>سند صرف</h2>
+          <div class="amount-tap-container">
+            <div class="amount-tap-content mb-20">
+              <h1 class="d-inline">MG</h1>
+              <h4 class="text-gray mb-20 d-inline mr-100" id="copyTextBillNo">
+                9999999
+              </h4>
+              <hr class="mb-20" />
+              <p class="text-gray mb-20">رقم الاشعار</p>
+              <h3 class="text-blue" id="copyTextSourceNo">5555555555555555</h3>
+            </div>
           </div>
           <div class="amount-tap-buttons">
             <button class="print-btn" id="printButton">طباعة الـأسعار</button>
             <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
-            <button class="download-btn">تحميل كـ صورة</button>
+            <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
           </div>
         </div>
       </div>
@@ -211,16 +213,26 @@
       // copy end
 
       // print start
-      // Get a reference to the "Print" button
       const printButton = document.getElementById("printButton");
-
-      // Attach a click event listener to the button
       printButton.addEventListener("click", () => {
-        // Call the window.print() function to open the print dialog
         window.print();
       });
-
       // print end
+
+      // save image start
+      document
+        .getElementById("downloadBtn")
+        .addEventListener("click", function () {
+          var popup = document.getElementById("popup");
+          html2canvas(popup).then(function (canvas) {
+            var link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "bill_info.png";
+            link.click();
+          });
+        });
+      // save image end
     </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   </body>
 </html>

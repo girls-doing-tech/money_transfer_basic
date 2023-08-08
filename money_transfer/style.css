@@ -212,9 +212,8 @@ input[type="submit"]:hover {
 }
 .amount-tap-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 10px;
-  position: absolute;
   bottom: 20px;
   right: 20px;
 }
