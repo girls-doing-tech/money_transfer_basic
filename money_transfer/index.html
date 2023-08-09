@@ -59,14 +59,14 @@
       </div>
 
       <div id="amountTab" class="tabcontent">
-        <div id="popup" class="p-5">
+        <div id="popup" class="p-5 capture-area">
           <h2>سند صرف</h2>
           <div class="amount-tap-container">
             <div class="amount-tap-content mb-20">
-              <h1 class="d-inline">MG</h1>
               <h4 class="text-gray mb-20 d-inline ml-100" id="copyTextBillNo">
                 9999999
               </h4>
+              <h1 class="d-inline">MG</h1>
               <hr class="mb-20" />
               <p class="text-gray mb-20">رقم الاشعار</p>
               <h3 class="text-blue" id="copyTextSourceNo">5555555555555</h3>
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="amount-tap-buttons">
-          <button class="print-btn" id="printButton">طباعة الـأسعار</button>
+          <button class="print-btn" id="capture-btn">طباعة الـأسعار</button>
           <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
           <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
         </div>
@@ -179,8 +179,6 @@
         const filteredCountries = names.filter((name) =>
           name.toLowerCase().includes(searchTerm)
         );
-
-        displayAutocompleteResults(filteredCountries);
       });
 
       function displayAutocompleteResults(results) {
@@ -222,11 +220,60 @@
       });
       // copy end
 
+      // script.js
+      // document
+      //   .getElementById("print-btn")
+      //   .addEventListener("click", function () {
+      //     var popup = document.getElementById("popup");
+      //     var link;
+      //     html2canvas(popup).then(function (canvas) {
+      //       link = document.createElement("a");
+      //       link.href = canvas.toDataURL("image/png");
+      //     });
+
+      //     // const captureArea = document.querySelector(".capture-area");
+
+      //     // Clone the capture area to avoid modifying the original content
+      //     const clonedCaptureArea = link.cloneNode(true);
+      //     const printWindow = window.open("", "_blank");
+      //     // Create a new window for printing
+
+      //     // Append the cloned content to the new window
+      //     printWindow.document.body.appendChild(clonedCaptureArea);
+
+      //     // Wait for the content to load before triggering print
+      //     clonedCaptureArea.onload = function () {
+      //       printWindow.print();
+      //       printWindow.close();
+      //     };
+      //   });
+
       // print start
-      const printButton = document.getElementById("printButton");
-      printButton.addEventListener("click", () => {
-        window.print();
-      });
+
+      document
+        .getElementById("capture-btn")
+        .addEventListener("click", function () {
+          const captureArea = document.querySelector(".capture-area");
+
+          html2canvas(captureArea).then(function (canvas) {
+            // Convert canvas to an image data URL
+            const imageDataURL = canvas.toDataURL("image/png");
+
+            // Create a new link element to offer options
+            const downloadLink = document.createElement("a");
+            downloadLink.href = imageDataURL;
+            downloadLink.download = "captured_area.png";
+            downloadLink.textContent = "Download Captured Area";
+
+            // Open a new window to display the captured image
+            const imageWindow = window.open("", "_blank");
+            imageWindow.document.write(
+              '<img src="' + imageDataURL + '" alt="Captured Area"><br>'
+            );
+            // imageWindow.document.body.appendChild(downloadLink);
+            imageWindow.print();
+          });
+        });
       // print end
 
       // save image start
