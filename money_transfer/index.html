@@ -219,10 +219,11 @@
         .getElementById("capture-btn")
         .addEventListener("click", function () {
           const captureArea = document.querySelector(".capture-area");
-
+          var downloadLink;
           html2canvas(captureArea).then(function (canvas) {
             const imageDataURL = canvas.toDataURL("image/png");
-            const downloadLink = document.createElement("a");
+            downloadLink = document.createElement("a");
+            downloadLink.classList.add("text-white");
             downloadLink.href = imageDataURL;
             downloadLink.download = "captured_area.png";
             downloadLink.textContent = "Download Captured Area";
@@ -230,8 +231,11 @@
             imageWindow.document.write(
               '<img src="' + imageDataURL + '" alt="Captured Area"><br>'
             );
-            // imageWindow.document.body.appendChild(downloadLink);
-            imageWindow.print();
+            downloadLink.style.display = "none";
+            imageWindow.document.body.appendChild(downloadLink);
+            setTimeout(() => {
+              imageWindow.print();
+            }, 100);
           });
         });
       // print end
