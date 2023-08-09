@@ -202,51 +202,16 @@
       const copyText1 = document.getElementById("copyTextBillNo");
 
       copyButton.addEventListener("click", () => {
-        // Create a temporary textarea to hold the text
         const textarea = document.createElement("textarea");
         textarea.value = copyText.textContent + copyText1.textContent;
         document.body.appendChild(textarea);
-
-        // Select the text in the textarea
         textarea.select();
         document.execCommand("copy");
-
-        // Clean up
         document.body.removeChild(textarea);
         alert("Information copied to clipboard! " + "\n" + textarea.value);
-
-        // Update the button text
         // copyButton.textContent = "تم النسخ!";
       });
       // copy end
-
-      // script.js
-      // document
-      //   .getElementById("print-btn")
-      //   .addEventListener("click", function () {
-      //     var popup = document.getElementById("popup");
-      //     var link;
-      //     html2canvas(popup).then(function (canvas) {
-      //       link = document.createElement("a");
-      //       link.href = canvas.toDataURL("image/png");
-      //     });
-
-      //     // const captureArea = document.querySelector(".capture-area");
-
-      //     // Clone the capture area to avoid modifying the original content
-      //     const clonedCaptureArea = link.cloneNode(true);
-      //     const printWindow = window.open("", "_blank");
-      //     // Create a new window for printing
-
-      //     // Append the cloned content to the new window
-      //     printWindow.document.body.appendChild(clonedCaptureArea);
-
-      //     // Wait for the content to load before triggering print
-      //     clonedCaptureArea.onload = function () {
-      //       printWindow.print();
-      //       printWindow.close();
-      //     };
-      //   });
 
       // print start
 
@@ -256,16 +221,11 @@
           const captureArea = document.querySelector(".capture-area");
 
           html2canvas(captureArea).then(function (canvas) {
-            // Convert canvas to an image data URL
             const imageDataURL = canvas.toDataURL("image/png");
-
-            // Create a new link element to offer options
             const downloadLink = document.createElement("a");
             downloadLink.href = imageDataURL;
             downloadLink.download = "captured_area.png";
             downloadLink.textContent = "Download Captured Area";
-
-            // Open a new window to display the captured image
             const imageWindow = window.open("", "_blank");
             imageWindow.document.write(
               '<img src="' + imageDataURL + '" alt="Captured Area"><br>'
