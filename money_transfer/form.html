@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Send Money Form</title>
-    <link rel="stylesheet" href="styles.css" />
+
     <!-- Link your stylesheet here -->
+    <!-- <link href="{{ asset('css/style.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="tab-container">
@@ -23,37 +27,139 @@
       </div>
 
       <div id="recipientTab" class="tabcontent">
-        <h2>اختر مستلم</h2>
-
         <form action="process_payment.php" method="post">
-          <label for="recipient">المستلم:</label>
-          <select name="recipient" id="recipient">
-            <option value="recipient1">أحمد</option>
-            <option value="recipient2">محمد</option>
-            <option value="recipient3">محمود</option>
-            <!-- Add more options as needed -->
-          </select>
-          <input type="text" id="searchInput" placeholder="بحث..." />
-          <ul id="autocompleteResults" class="autocomplete-results"></ul>
-          <br />
+          <div class="input-container">
+            <label for="recipient" class="w-22">اسم المستفيد:</label>
+            <input type="text" placeholder="اسم المستفيد" class="w-35" />
+            <label for="recipient" class="w-22">رقم المستفيد:</label>
+            <input type="text" placeholder="رقم المستفيد" class="w-35" />
+          </div>
+          <div class="input-container">
+            <label for="recipient" class="w-18">الجهة:</label>
+            <select class="select2" id="type" required>
+              <!-- 
+            <?php
+            $curl_handle = curl_init();
 
-          <label for="amount">الكمية:</label>
-          <input type="number" name="amount" id="amount" step="0.01" required />
-          <br />
+            $url = "https://secure.disoft-tech.com/Disoft_RestFul_Api/resources/Sawa_Api/S1_Branches?pUName=10921372&pUToken=fvoxk8djufcpez8dus91vacy5dp19jza&pB_Userid=34&pCompanyid=2";
 
-          <label for="currency">العملة:</label>
-          <select name="currency" id="currency">
-            <option value="usd">USD</option>
-            <option value="eur">EUR</option>
-            <option value="gbp">GBP</option>
-            <!-- Add more currency options as needed -->
-          </select>
-          <br />
+            curl_setopt($curl_handle, CURLOPT_URL, $url);
+            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
 
-          <label for="message">الرسالة:</label>
-          <textarea name="message" id="message" rows="4" cols="50"></textarea>
-          <br />
+            $curl_data = curl_exec($curl_handle);
+            curl_close($curl_handle);
 
+            $response_data = json_decode($curl_data);
+            $user_data = $response_data->S_BRANCHESLIST;
+
+            foreach ($user_data as $user) {
+                echo '<option value="' . $user->DB_BRANCH_NAME_AR . '">' . $user->DB_BRANCH_NAME_AR . '</option>';
+            }
+            ?> -->
+            </select>
+          </div>
+          <div class="input-container">
+            <label class="w-22">الوجهة (المدينة):</label>
+            <input id="City" type="text" onchange="" class=" " disabled="" />
+          </div>
+
+          <div class="input-container">
+            <label class="w-22">العملة المرسلة:</label>
+            <select
+              id="SCur"
+              class="w-35"
+              onchange="FeesRateCalc('SCur');"
+              style="color: rgb(4, 129, 96)"
+            >
+              <option style="color: #354168" color="#354168" value="0">
+                إختر العملة المرسلة:
+              </option>
+              <option style="color: #8713a4" color="#8713a4" value="2">
+                ليرة&nbsp;تركية
+              </option>
+              <option style="color: #048160" color="#048160" value="3">
+                دولار
+              </option>
+              <option style="color: #8b4d00" color="#8b4d00" value="4">
+                يورو
+              </option>
+            </select>
+
+            <label class="w-22">المبلغ المرسل:</label>
+            <input
+              id="SAM"
+              type="text"
+              onchange="FeesRateCalc('SAM');"
+              class="w-35 NumberOnly"
+              disabled=""
+            />
+          </div>
+
+          <!--------------------------------copy-->
+          <div class="input-container">
+            <label class="w-22">المبلغ بالسوري:</label>
+            <input
+              id="SYDAM"
+              type="text"
+              onfocus="this.select()"
+              onblur="SYDAMCalc();"
+              class="NumberOnly"
+            />
+          </div>
+
+          <div class="input-container">
+            <label class="w-22">العملة المسلمة:</label>
+            <select
+              id="RCur"
+              class="w-35"
+              onchange="FeesRateCalc('RCur');"
+              style="color: rgb(58, 173, 255)"
+            >
+              <option value="1" color="#3aadff" style="color: #3aadff">
+                ليرة سورية
+              </option>
+            </select>
+
+            <label class="w-22">المبلغ المسلم:</label>
+            <input id="RAM" type="text" disabled="" class="w-35 NumberOnly" />
+          </div>
+
+          <div class="input-container">
+            <label class="w-22">الأجور:</label>
+            <input
+              id="FEES"
+              value="0"
+              type="text"
+              disabled=""
+              class="w-35 NumberOnly"
+            />
+
+            <label class="w-22">الصرف:</label>
+            <input
+              id="TEXRATE"
+              value="0"
+              type="text"
+              disabled=""
+              class="w-35 NumberOnly"
+            />
+          </div>
+          <div class="input-container">
+            <label class="w-22">ملاحظة:</label>
+            <input id="Note" type="text" class=" " />
+          </div>
+          <div class="input-container">
+            <label class="">عنوان الفرع:</label>
+            <div id="BHADD" class="w-70">
+              يمكنك الإستلام من أي فرع سوا - الهرم - المتحدة - الفؤاد
+            </div>
+            <span
+              class="s7-copy-file btn btn-light"
+              data-clipboard-action="copy"
+              data-clipboard-target="#BHADD"
+              >نسخ</span
+            >
+          </div>
+          <br />
           <input type="submit" value="ارسال" />
         </form>
       </div>
@@ -125,7 +231,7 @@
       // active tab end
 
       // quick search start
-      function searchRecipients() {
+      /* function searchRecipients() {
         var input, filter, select, options, i, txtValue;
         input = document.getElementById("recipientSearch");
         filter = input.value.toUpperCase();
@@ -193,10 +299,40 @@
           });
           autocompleteResults.appendChild(li);
         });
-      }
+      }*/
       // quick search end
 
       // copy start
+      // fetch combox start
+      const domainSelector = document.getElementById("domainSelector");
+      fetch(
+        "https://proxy.cors.sh/https://secure.disoft-tech.com:443/Disoft_RestFul_Api/resources/tayba_test/IntCrossingLightAll",
+        {
+          headers: {
+            "x-cors-api-key": "temp_c9c7584e09e6b3603708e5f7032d8fb4",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((domains) => {
+          console.log(domains.INTLISTCROSSINGLIGHTALL);
+          domains.INTLISTCROSSINGLIGHTALL.forEach((domain) => {
+            console.log(domain);
+            const option = document.createElement("option");
+            option.value = domain.DB_CROSSING_NAME;
+            option.text = domain.DB_CROSSING_NAME;
+            domainSelector.appendChild(option);
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching domain names:", error);
+        });
+
+      domainSelector.addEventListener("change", (event) => {
+        const selectedDomain = event.target.value;
+        console.log("Selected domain:", selectedDomain);
+      });
+      // combobox end
       const copyButton = document.getElementById("copyButton");
       const copyText = document.getElementById("copyTextSourceNo");
       const copyText1 = document.getElementById("copyTextBillNo");
@@ -255,5 +391,13 @@
       // save image end
     </script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".select2").select2({});
+      });
+    </script>
   </body>
 </html>
