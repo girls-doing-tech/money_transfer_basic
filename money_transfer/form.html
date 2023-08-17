@@ -247,15 +247,68 @@
             <input type="submit" value="تثبيت" />
           </form>
         </div>
-        <div class="amount-tap-buttons">
-          <button class="print-btn" id="capture-btn">طباعة الـأسعار</button>
-          <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
-          <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
-        </div>
       </div>
 
       <div id="confirmTab" class="tabcontent">
-        <h2>Confirm Details</h2>
+        <form action="process_payment.php" method="post">
+          <div class="input-container">
+            <label class="w-22">نوع الاعتماد </label>
+            <select
+              id="receipt"
+              type="text"
+              onchange=""
+              class=" "
+              disabled=""
+              placeholder="اختر نوع الاعتماد"
+            ></select>
+          </div>
+          <div class="input-container">
+            <label class="w-22"> العميل </label>
+            <select
+              id="client"
+              type="text"
+              onchange=""
+              class=" "
+              placeholder="اختر العميل"
+            ></select>
+          </div>
+          <div class="input-container">
+            <label class="w-22">مبلغ الاعتماد : </label>
+            <input
+              id="SYDAM"
+              type="text"
+              onfocus="this.select()"
+              onblur="SYDAMCalc();"
+              class="w-35 NumberOnly"
+            />
+            <label class="w-22"> عملية الاعتماد</label>
+            <select
+              id="SCur"
+              class="w-35"
+              onchange="FeesRateCalc('SCur');"
+              style="color: rgb(4, 129, 96)"
+            >
+              <option style="color: #354168" color="#354168" value="0">
+                اختر العملة المرسلة:
+              </option>
+              <option style="color: #8713a4" color="#8713a4" value="2">
+                ليرة&nbsp;تركية
+              </option>
+              <option style="color: #048160" color="#048160" value="3">
+                دولار
+              </option>
+              <option style="color: #8b4d00" color="#8b4d00" value="4">
+                يورو
+              </option>
+            </select>
+          </div>
+          <div class="input-container">
+            <label class="w-22">ملاحظة:</label>
+            <input id="Note" type="text" class=" " />
+          </div>
+          <br />
+          <input type="submit" value="تنفيذ الاعتماد" />
+        </form>
       </div>
     </div>
 
@@ -483,3 +536,9 @@
 
           <input type="submit" value="Send Money" />
         </form-->
+<!--popup btn-->
+<!--div class="amount-tap-buttons">
+  <button class="print-btn" id="capture-btn">طباعة الـأسعار</button>
+  <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
+  <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
+</div-->
