@@ -11,6 +11,19 @@
       href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
       rel="stylesheet"
     />
+    <style>
+      /* Style for the popup */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    </style>
   </head>
   <body>
     <div class="tab-container">
@@ -165,88 +178,81 @@
       </div>
 
       <div id="amountTab" class="tabcontent">
-        <div id="popup" class="p-5 capture-area">
-          <form action="process_payment.php" method="post">
-            <div class="input-container">
-              <label class="w-22">التوصيف </label>
-              <input
-                id="receipt"
-                type="text"
-                onchange=""
-                class=" "
-                disabled=""
-                placeholder="سند صرف"
-              />
-            </div>
-            <div class="input-container">
-              <label class="w-22"> من العملة:</label>
-              <select
-                id="SCur"
-                class="w-35"
-                onchange="FeesRateCalc('SCur');"
-                style="color: rgb(4, 129, 96)"
-              >
-                <option style="color: #354168" color="#354168" value="0">
-                  اختر العملة المرسلة:
-                </option>
-                <option style="color: #8713a4" color="#8713a4" value="2">
-                  ليرة&nbsp;تركية
-                </option>
-                <option style="color: #048160" color="#048160" value="3">
-                  دولار
-                </option>
-                <option style="color: #8b4d00" color="#8b4d00" value="4">
-                  يورو
-                </option>
-              </select>
-              <label class="w-22">بيع مبلغ : </label>
-              <input
-                id="SYDAM"
-                type="text"
-                onfocus="this.select()"
-                onblur="SYDAMCalc();"
-                class="w-35 NumberOnly"
-              />
-            </div>
-            <div class="input-container">
-              <label class="w-22"> إلى العملة:</label>
-              <select
-                id="RCur"
-                class="w-35"
-                onchange="FeesRateCalc('RCur');"
-                style="color: rgb(58, 173, 255)"
-              >
-                <option style="color: #354168" color="#354168" value="0">
-                  اختر العملة المسلمة:
-                </option>
-                <option value="1" color="#3aadff" style="color: #3aadff">
-                  ليرة سورية
-                </option>
-              </select>
+        <form>
+          <div class="input-container">
+            <label class="w-22">التوصيف </label>
+            <input
+              id="receipt"
+              type="text"
+              onchange=""
+              class=" "
+              disabled=""
+              placeholder="سند صرف"
+              value="سند صرف"
+            />
+          </div>
+          <div class="input-container">
+            <label class="w-22"> من العملة:</label>
+            <select id="SCur" class="w-35" style="color: rgb(4, 129, 96)">
+              <option style="color: #354168" color="#354168" value="0">
+                اختر العملة المرسلة:
+              </option>
+              <option style="color: #8713a4" color="#8713a4" value="2">
+                ليرة&nbsp;تركية
+              </option>
+              <option style="color: #048160" color="#048160" value="3">
+                دولار
+              </option>
+              <option style="color: #8b4d00" color="#8b4d00" value="4">
+                يورو
+              </option>
+            </select>
+            <label class="w-22">بيع مبلغ : </label>
+            <input
+              id="SYDAM"
+              type="text"
+              onfocus="this.select()"
+              onblur="SYDAMCalc();"
+              class="w-35 NumberOnly"
+            />
+          </div>
+          <div class="input-container">
+            <label class="w-22"> إلى العملة:</label>
+            <select id="RCur" class="w-35" style="color: rgb(58, 173, 255)">
+              <option style="color: #354168" color="#354168" value="0">
+                اختر العملة المسلمة:
+              </option>
+              <option value="1" color="#3aadff" style="color: #3aadff">
+                ليرة سورية
+              </option>
+            </select>
 
-              <label class="w-22">شراء مبلغ : </label>
-              <input id="RAM" type="text" disabled="" class="w-35 NumberOnly" />
-            </div>
-            <div class="input-container">
-              <label class="w-22">المبلغ بالسوري:</label>
-              <input
-                id="SYDAM"
-                type="text"
-                onfocus="this.select()"
-                onblur="SYDAMCalc();"
-                class="NumberOnly"
-                placeholder="0"
-                disabled
-              />
-            </div>
-            <div class="input-container">
-              <label class="w-22">ملاحظة:</label>
-              <input id="Note" type="text" class=" " />
-            </div>
-            <br />
-            <input type="submit" value="تثبيت" />
-          </form>
-        </div>
+            <label class="w-22">شراء مبلغ : </label>
+            <input id="RAM" type="text" disabled="" class="w-35 NumberOnly" />
+          </div>
+          <div class="input-container">
+            <label class="w-22">سعر الصرف :</label>
+            <input
+              id="SYDAM"
+              type="text"
+              onfocus="this.select()"
+              class="NumberOnly"
+              value="0"
+              placeholder="0"
+              disabled
+            />
+          </div>
+          <div class="input-container">
+            <label class="w-22">ملاحظة:</label>
+            <input id="Note" type="text" class=" " />
+          </div>
+          <br />
+          <input
+            type="button"
+            value="تثبيت"
+            onclick="openPopup('receipt', 'SCur', 'RCur', 'RAM','SYDAM','Note')"
+          />
+        </form>
       </div>
 
       <div id="confirmTab" class="tabcontent">
@@ -310,11 +316,51 @@
           <input type="submit" value="تنفيذ الاعتماد" />
         </form>
       </div>
+      <div id="popup" class="popup">
+        <span id="popupContent"></span>
+        <button onclick="closePopup()">Close</button>
+      </div>
+      <div id="result" class="amount-tap-container" style="display: none">
+        <div class="amount-tap-content mb-20">
+          <h4 class="text-gray mb-20 d-inline ml-100" id="copyTextBillNo">
+            9999999
+          </h4>
+          <h1 class="d-inline">MG</h1>
+          <hr class="mb-20" />
+          <p class="text-gray mb-20">رقم الاشعار</p>
+          <h3 class="text-blue" id="copyTextSourceNo">5555555555555</h3>
+          <hr class="mb-20" />
+          <p class="text-gray">المبلغ</p>
+          <h3 class="text-red text-center mb-20" id="copyTextSourceNo">
+            20000 ليرة سورية
+          </h3>
+          <p class="text-gray mb-20 text-center">عشرون ألفا</p>
+          <hr class="mb-20" />
+          <p class="text-gray">ملاحظات مهمة</p>
+          <p>أموال هي وحدة تبادل تستخدم في الاقتصاد للقيام بالمعاملات</p>
+        </div>
+      </div>
     </div>
 
     <script>
       // active tab start
       document.getElementById("recipientTab").style.display = "block";
+      function openPopup(...fields) {
+        console.log("here");
+        const popupContent = document.getElementById("popupContent");
+        let content = "";
+        fields.forEach((field) => {
+          const value = document.getElementById(field).value;
+          content += `${field}: ${value}, `;
+        });
+        popupContent.textContent = content.slice(0, -2);
+        document.getElementById("result").style.display = "block"; // Remove the trailing comma and space
+        document.getElementById("popup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
       function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -542,3 +588,6 @@
   <button class="copy-btn" id="copyButton">نسخ المعلومات</button>
   <button class="download-btn" id="downloadBtn">تحميل كـ صورة</button>
 </div-->
+<!--  select currency onchange="FeesRateCalc('RCur');"-->
+<!--  onblur="SYDAMCalc();" for field input id="SYDAM" -->
+<!--  onchange="FeesRateCalc('SCur');" for select with id SCur-->
