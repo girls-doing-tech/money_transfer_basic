@@ -12,17 +12,54 @@
       rel="stylesheet"
     />
     <style>
-      /* Style for the popup */
-      .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
+      .popup-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-container .popupBody{
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .popup {
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .popup .popup-button{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px;
+      
+    }
+    
+.custom-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #2980b9;
+}
+    .icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+  </style>
     </style>
   </head>
   <body>
@@ -43,32 +80,14 @@
         <form action="process_payment.php" method="post">
           <div class="input-container">
             <label for="recipient" class="w-22">اسم المستفيد:</label>
-            <input type="text" placeholder="اسم المستفيد" class="w-35" />
+            <input id="RecipientName" type="text" placeholder="اسم المستفيد" class="w-35" />
             <label for="recipient" class="w-22">رقم المستفيد:</label>
-            <input type="text" placeholder="رقم المستفيد" class="w-35" />
+            <input id= "ReceiverName" type="text"  placeholder="رقم المستفيد" class="w-35" />
           </div>
           <div class="input-container">
             <label for="recipient" class="w-18">الجهة:</label>
-            <select class="select2" id="type" required>
-              <!-- 
-            <?php
-            $curl_handle = curl_init();
-
-            $url = "https://secure.disoft-tech.com/Disoft_RestFul_Api/resources/Sawa_Api/S1_Branches?pUName=10921372&pUToken=fvoxk8djufcpez8dus91vacy5dp19jza&pB_Userid=34&pCompanyid=2";
-
-            curl_setopt($curl_handle, CURLOPT_URL, $url);
-            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-
-            $curl_data = curl_exec($curl_handle);
-            curl_close($curl_handle);
-
-            $response_data = json_decode($curl_data);
-            $user_data = $response_data->S_BRANCHESLIST;
-
-            foreach ($user_data as $user) {
-                echo '<option value="' . $user->DB_BRANCH_NAME_AR . '">' . $user->DB_BRANCH_NAME_AR . '</option>';
-            }
-            ?> -->
+            <select class="select2" id="Type" required>
+              <option value="type1"> type1</option>
             </select>
           </div>
           <div class="input-container">
@@ -81,7 +100,6 @@
             <select
               id="SCur"
               class="w-35"
-              onchange="FeesRateCalc('SCur');"
               style="color: rgb(4, 129, 96)"
             >
               <option style="color: #354168" color="#354168" value="0">
@@ -102,20 +120,17 @@
             <input
               id="SAM"
               type="text"
-              onchange="FeesRateCalc('SAM');"
               class="w-35 NumberOnly"
               disabled=""
             />
           </div>
 
-          <!--------------------------------copy-->
           <div class="input-container">
             <label class="w-22">المبلغ بالسوري:</label>
             <input
               id="SYDAM"
               type="text"
               onfocus="this.select()"
-              onblur="SYDAMCalc();"
               class="NumberOnly"
             />
           </div>
@@ -173,7 +188,7 @@
             >
           </div>
           <br />
-          <input type="submit" value="ارسال" />
+          <button type="button" value="ارسال" onclick="showTransferPopup('RecipientName','ReceiverName','Type','SAM','FEES')"> ارسال </button>
         </form>
       </div>
 
@@ -250,7 +265,7 @@
           <input
             type="button"
             value="تثبيت"
-            onclick="openPopup('receipt', 'SCur', 'RCur', 'RAM','SYDAM','Note')"
+            onclick="showReceiptPopup('receipt', 'SCur', 'RCur', 'RAM','SYDAM','Note')"
           />
         </form>
       </div>
@@ -260,8 +275,9 @@
           <div class="input-container">
             <label class="w-22">نوع الاعتماد </label>
             <select
-              id="receipt"
+              id="Credit"
               type="text"
+              value="credit"
               onchange=""
               class=" "
               disabled=""
@@ -271,7 +287,7 @@
           <div class="input-container">
             <label class="w-22"> العميل </label>
             <select
-              id="client"
+              id="Client"
               type="text"
               onchange=""
               class=" "
@@ -281,17 +297,15 @@
           <div class="input-container">
             <label class="w-22">مبلغ الاعتماد : </label>
             <input
-              id="SYDAM"
+              id="crAmount"
               type="text"
               onfocus="this.select()"
-              onblur="SYDAMCalc();"
               class="w-35 NumberOnly"
             />
             <label class="w-22"> عملية الاعتماد</label>
             <select
-              id="SCur"
+              id="CrOperation"
               class="w-35"
-              onchange="FeesRateCalc('SCur');"
               style="color: rgb(4, 129, 96)"
             >
               <option style="color: #354168" color="#354168" value="0">
@@ -310,15 +324,24 @@
           </div>
           <div class="input-container">
             <label class="w-22">ملاحظة:</label>
-            <input id="Note" type="text" class=" " />
+            <input id="NoteCr" type="text" class=" " />
           </div>
           <br />
-          <input type="submit" value="تنفيذ الاعتماد" />
+          <button type="button" onclick="showLetterOfCreditPopup('Credit','Client','crAmount','RAM')" > تنفيذ الاعتماد </button>
         </form>
       </div>
-      <div id="popup" class="popup">
-        <span id="popupContent"></span>
-        <button onclick="closePopup()">Close</button>
+      <div class="popup-container" id="popupContainer">
+        <div class="popup">
+          <div class="icon">❗</div>
+          <div id="popupText"> هل أنت متأكد من الإجراء ؟</div>
+          <div id="popupBody" class="popupBody">
+
+          </div>
+          <div class="popup-button">
+            <button class="custom-button" onclick="proceed()">نعم متأكد</button>
+            <button class="custom-button" onclick="cancel()">لا أود التراجع</button>
+          </div>
+        </div>
       </div>
       <div id="result" class="amount-tap-container" style="display: none">
         <div class="amount-tap-content mb-20">
@@ -345,21 +368,48 @@
     <script>
       // active tab start
       document.getElementById("recipientTab").style.display = "block";
-      function openPopup(...fields) {
-        console.log("here");
-        const popupContent = document.getElementById("popupContent");
-        let content = "";
-        fields.forEach((field) => {
-          const value = document.getElementById(field).value;
-          content += `${field}: ${value}, `;
-        });
-        popupContent.textContent = content.slice(0, -2);
-        document.getElementById("result").style.display = "block"; // Remove the trailing comma and space
-        document.getElementById("popup").style.display = "block";
-      }
+      function showTransferPopup(...fields) {
+      const recipientName = document.getElementById("RecipientName").value;
+      const receiverName = document.getElementById("ReceiverName").value;
+      const type = document.getElementById('Type').value;
+      const senderAmount = document.getElementById('SAM').value;
+      const fees = document.getElementById('FEES').value;
 
-      function closePopup() {
-        document.getElementById("popup").style.display = "none";
+     const popupText = document.getElementById('popupBody');
+     popupText.textContent = ` سيتم تحويل حوالة من ${recipientName} إلى ${receiverName} بمبلغ ${senderAmount} ورسوم ${fees}`;
+
+    // Show popup
+    document.getElementById('popupContainer').style.display = 'flex';
+}
+      function showReceiptPopup(...fields) {
+      const receipt = document.getElementById("receipt").value;
+      const sentCurrency = document.getElementById("SCur").value;
+      const sentAmount = document.getElementById('SYDAM').value;
+      const receiveCurrency = document.getElementById('RCur').value;
+      const sellAmount = document.getElementById('RAM').value;
+      const note = document.getElementById('Note').value;
+     const popupText = document.getElementById('popupBody');
+     popupText.textContent = ` ${receipt} ذات العملة المختارة ${sentCurrency} والمبلغ المرسل ${sentAmount}`;
+
+    // Show popup
+    document.getElementById('popupContainer').style.display = 'flex';
+}
+
+function showLetterOfCreditPopup(...fields) {
+      const credit = document.getElementById("Credit").value;
+      const client = document.getElementById("Client").value;
+      const creditAmount = document.getElementById('crAmount').value;
+      const creditOperation = document.getElementById('CrOperation').value;
+      const sellAmount = document.getElementById('RAM').value;
+      const note = document.getElementById('NoteCr').value;
+const popupText = document.getElementById('popupBody');
+popupText.textContent = ` ${credit}  ذات العملة المختارة  للعميل ذو الاسم ${client} و ${creditAmount} والمبلغ المرسل ${sellAmount}`;
+
+    // Show popup
+    document.getElementById('popupContainer').style.display = 'flex';
+}
+      function cancel() {
+        document.getElementById("popupContainer").style.display = "none";
       }
       function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
@@ -591,3 +641,6 @@
 <!--  select currency onchange="FeesRateCalc('RCur');"-->
 <!--  onblur="SYDAMCalc();" for field input id="SYDAM" -->
 <!--  onchange="FeesRateCalc('SCur');" for select with id SCur-->
+<!--  onchange=" onblur="SYDAMCalc();";" for select with id SYDAM-->
+
+
